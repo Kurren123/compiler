@@ -9,6 +9,7 @@ module Repl
 import Prelude hiding (lines, read)
 import Control.Applicative ((<|>))
 import Control.Monad.RWS (lift, liftIO)
+import qualified ProcessCopy as PC
 import qualified Control.Monad.RWS as RWS
 import qualified Control.Exception as C
 import qualified Data.ByteString.Builder as B
@@ -176,7 +177,7 @@ withCreateProcess
   -> (Maybe IO.Handle -> Maybe IO.Handle -> Maybe IO.Handle -> Proc.ProcessHandle -> IO a)
   -> IO a
 withCreateProcess c action =
-    C.bracket (Proc.createProcess c) Proc.cleanupProcess
+    C.bracket (Proc.createProcess c) PC.cleanupProcess
               (\(m_in, m_out, m_err, ph) -> action m_in m_out m_err ph)
 
 
