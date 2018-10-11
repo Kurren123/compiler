@@ -10,6 +10,7 @@ import Prelude hiding (lines, read)
 import Control.Applicative ((<|>))
 import Control.Monad.RWS (lift, liftIO)
 import qualified Control.Monad.RWS as RWS
+import qualified Control.Exception as C
 import qualified Data.ByteString.Builder as B
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.List as List
@@ -170,11 +171,20 @@ interpret def state =
       return Nothing
 
 
+withCreateProcess
+  :: Proc.CreateProcess
+  -> (Maybe IO.Handle -> Maybe IO.Handle -> Maybe IO.Handle -> Proc.ProcessHandle -> IO a)
+  -> IO a
+withCreateProcess c action =
+    C.bracket (Proc.createProcess c) Proc.cleanupProcess
+              (\(m_in, m_out, m_err, ph) -> action m_in m_out m_err ph)
+
+
 interpretHelp :: FilePath -> Runner ()
 interpretHelp path =
   do  interpreter <- RWS.asks fst
       let proc = (Proc.proc interpreter [path]) { Proc.std_in = Proc.CreatePipe }
-      liftIO $ Proc.withCreateProcess proc $ \_ _ _ handle ->
+      liftIO $ withCreateProcess proc $ \_ _ _ handle ->
         do  _ <- Proc.waitForProcess handle
             Dir.removeFile path
 
