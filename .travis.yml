@@ -1,3 +1,11 @@
 language: haskell
 ghc:
-  - "8.2.2" 
+- 8.0.1
+deploy:
+  provider: releases
+  api_key:
+    secure: Tb9sZEolrm0QxYScX52BomdD79A8yqRRe64zEmqfA3bHGfI27XuNbAXyhSoUmzMdKpme636zRE52UL2Qx9fA97zHwXxLKwB47TvrvON1Qp2E0DapHE0niiSGD67EeIkMGznp4UZHaKGND9URa7wsTuY05aTAiF7B/JQbVcWSURwoSyu/5OT5DcyPf7zbxdD6q2dpazl6Wc5NPjpc45+Ak4SjP1wt/qteediY32casIZANUrefGxdXnsJDn3CU1yuNGaj+jU5ap6uVjBLwXuwzhxhYzbW79UKW8HjZDASrBc/QYbc8XqHMvUUMutW2XUJn9x3YxlBCuzQLvbNB4qI7oby26OUh22uCcqQ4OImt+tF8KkqK/X8A1Tz++3mSTzUpW/YtMzRviBvdsieE4hsOB5kxtolHBh3iyYBHwHhSklMiG4t/WPWQEih68AWAjTyWB/0otE3DAru1vzVNzlBgE8vvqQ1EdEM5t5ckzSOyEaLRtYNyx1778AU56A+ByoPfZwMxu0FeYAWtRlXYuZ5yH16HDccMB41uUfFesXTdvetkUakSTT9jF1Wvn4RDqxw8aWxXh50h/eo+789s+NqJy96l/BL6f5ey8pV7HtTU3DdH80hlfBqGutj3LQHqU3e5WCLuQeBtoonyLDpKz3Tk5ICCTcJBsLBTpFqmk+ksYk=
+  file: dist\build\elm\elm.exe
+  skip_cleanup: true
+  on:
+    repo: Kurren123/compiler
