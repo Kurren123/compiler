@@ -16,7 +16,7 @@ install:
   - set PATH=%APPDATA%\cabal\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\msys64\usr\bin;%PATH%
   - cabal --version
   - cabal %CABOPTS% update
-  - cabal %CABOPTS% install happy alex
+  - cabal install --only-dependencies --enable-tests
 
 environment:
   global:
@@ -27,5 +27,20 @@ cache:
   - "C:\\sr"
 
 build_script:
-  - cabal install --only-dependencies --enable-tests
   - cabal configure --enable-tests && cabal build && cabal test
+
+artifacts:
+  - path: dist\build\elm\elm.exe
+  
+
+deploy:
+  description: 'Elm compiler fix'
+  provider: GitHub
+  auth_token:
+    secure: 8429bc742281421da042dd69d02b76616b2275e3
+  artifact: dist\build\elm\elm.exe
+  draft: false
+  prerelease: false
+  on:
+    branch: master # release from master branch only
+  
